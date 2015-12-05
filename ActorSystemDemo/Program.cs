@@ -131,8 +131,7 @@ namespace ActorSystemDemo
     private static void ExecuteCancelBookingCommand(IActorRef bookingClient,
       string venueId, string conferenceId, int ticketNumber)
     {
-      bookingClient
-        .Tell(new CancelBookingMessage(venueId,
+      bookingClient.Tell(new CancelBookingMessage(venueId,
           conferenceId,
           ticketNumber));
     }
@@ -150,7 +149,7 @@ namespace ActorSystemDemo
 
       Enumerable.Range(1, max).Select(_ => Guid.NewGuid())
         .Select(guid => new GenerateReceiptMessage(guid))
-        .ForEach(async (message) =>
+        .ForEach(async message =>
         {
           var receipt = await billing.Ask<ReceiptMessage>(message);
 

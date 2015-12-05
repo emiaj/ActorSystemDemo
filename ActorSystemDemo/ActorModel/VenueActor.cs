@@ -67,7 +67,8 @@ namespace ActorSystemDemo.ActorModel
         }
         else
         {
-          Sender.Tell(new CancelBookingUnsucessfulMessage(message.CorrelationId, message.VenueId, message.ConferenceId,
+          Sender.Tell(new CancelBookingUnsucessfulMessage(message.CorrelationId,
+            message.VenueId, message.ConferenceId,
             message.TicketNumber, "Conference not found!"));
         }
       });

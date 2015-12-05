@@ -32,14 +32,16 @@ namespace ActorSystemDemo.ActorModel
       {
         if (_booked)
         {
-          Sender.Tell(new BookingUnsucessfulMessage(message.CorrelationId, message.VenueId, message.ConferenceId,
+          Sender.Tell(new BookingUnsucessfulMessage(message.CorrelationId, 
+            message.VenueId, message.ConferenceId,
             message.TicketNumber, message.AttendeeName,
             string.Format("Ticket {0} has been already booked!", _ticketNumber)));
         }
         else
         {
           _booked = true;
-          Sender.Tell(new BookingSuccessfulMessage(message.CorrelationId, message.VenueId, message.ConferenceId,
+          Sender.Tell(new BookingSuccessfulMessage(message.CorrelationId, 
+            message.VenueId, message.ConferenceId,
             message.TicketNumber, message.AttendeeName));
         }
       });
