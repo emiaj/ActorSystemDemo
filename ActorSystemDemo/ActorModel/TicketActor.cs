@@ -8,7 +8,7 @@ namespace ActorSystemDemo.ActorModel
   {
     private readonly int _ticketNumber;
     private readonly string _conferenceId;
-    private bool _reserved;
+    private bool _booked;
 
     private readonly ILoggingAdapter _logger = Context.GetLogger();
 
@@ -30,15 +30,15 @@ namespace ActorSystemDemo.ActorModel
     {
       Receive<BookConferenceMessage>(message =>
       {
-        if (_reserved)
+        if (_booked)
         {
           Sender.Tell(new BookingUnsucessfulMessage(message.CorrelationId, message.VenueId, message.ConferenceId,
             message.TicketNumber, message.AttendeeName,
-            string.Format("Ticket {0} has been already reserved!", _ticketNumber)));
+            string.Format("Ticket {0} has been already booked!", _ticketNumber)));
         }
         else
         {
-          _reserved = true;
+          _booked = true;
           Sender.Tell(new BookingSuccessfulMessage(message.CorrelationId, message.VenueId, message.ConferenceId,
             message.TicketNumber, message.AttendeeName));
         }
@@ -46,9 +46,9 @@ namespace ActorSystemDemo.ActorModel
 
       Receive<CancelBookingMessage>(message =>
       {
-        if (_reserved)
+        if (_booked)
         {
-          _reserved = false;
+          _booked = false;
           _logger.Info(
             "Ticket {0} for conference {1} and venue {2} has become available again!",
             _ticketNumber, _conferenceId, message.VenueId);
