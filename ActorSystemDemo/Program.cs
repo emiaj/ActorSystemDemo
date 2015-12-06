@@ -5,6 +5,7 @@ using System.Threading;
 using ActorSystemDemo.ActorModel;
 using ActorSystemDemo.Messages;
 using Akka.Actor;
+using Akka.Routing;
 using Akka.Util.Internal;
 
 namespace ActorSystemDemo
@@ -30,7 +31,8 @@ namespace ActorSystemDemo
 
       Console.WriteLine("Creating BillingActor...");
       IActorRef billing = actorSystem
-        .ActorOf(Props.Create<BillingActor>(), "Billing");
+        .ActorOf(Props.Create<BillingActor>()
+        .WithRouter(new RoundRobinPool(5)), "Billing");
 
       Console.ReadLine();
 
